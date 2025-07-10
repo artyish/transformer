@@ -1,13 +1,9 @@
 import tensorflow as tf
+from datasets import load_dataset
 
 def get_vocab_dictionary():
-    text = """
-    Once upon a time, in a land full of trees, there was a little cherry tree. The cherry tree was very sad because it did not have any friends. All the other trees were big and strong, but the cherry tree was small and weak. The cherry tree was envious of the big trees.
-
-    One day, the cherry tree felt a tickle in its branches. It was a little spring wind. The wind told the cherry tree not to be sad. The wind said, "You are special because you have sweet cherries that everyone loves." The cherry tree started to feel a little better.
-
-    As time went on, the cherry tree grew more and more cherries. All the animals in the land came to eat the cherries and play under the cherry tree. The cherry tree was happy because it had many friends now. The cherry tree learned that being different can be a good thing. And they all lived happily ever after.
-    """
+    dataset = load_dataset("squad")
+    small_train = dataset["train"].select(range(4000))
 
     vocab_dictionary = {}
     vocab_dictionary.update({
@@ -17,12 +13,12 @@ def get_vocab_dictionary():
     })
 
     input_num = 3
-    for word in text.split():
-        if word in vocab_dictionary:
-            continue
-
-        vocab_dictionary.update({word : input_num})
-        input_num += 1
+    for example in small_train:
+        combined_text = example["question"] + " " + example["context"]
+        for word in combined_text.lower().split():  
+            if word not in vocab_dictionary:
+                vocab_dictionary.update({word: input_num})
+                input_num += 1
         
     return vocab_dictionary
 
@@ -33,12 +29,12 @@ def return_token(sentence, vocab_dictionary):
     tokenized_sentence.append(vocab_dictionary["<EOS>"])
     return tokenized_sentence
 
-def return_embedding_vector(tokens):
+def return_embedding_vector(tensor):
     vocab_dictionary = get_vocab_dictionary()
     length = len(vocab_dictionary)
     
-    tokens = tokens
-    tokens_in_tensor = tf.constant([tokens])
+    #tokens = tokens
+    tokens_in_tensor = tensor
     
     embedding_layer = tf.keras.layers.Embedding(input_dim=length, output_dim=32) 
     embedding_vectors = embedding_layer(tokens_in_tensor)

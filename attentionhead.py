@@ -2,7 +2,7 @@ import tensorflow as tf
 import math
 
 # here we infer self attention :D
-def infer_self_attention(vectors):
+def infer_self_attention(vectors, W_Q, W_K, W_V):
     number_of_heads = 4
     get_vectors = vectors
     print(get_vectors.shape)
@@ -10,11 +10,6 @@ def infer_self_attention(vectors):
     # use that to calculate the dimension for weight matrices
     dimension = get_vectors.shape[2]
     weight_shape_y = dimension // number_of_heads # this is for single head attention
-    weight_shape_x = get_vectors.shape[2]
-
-    W_Q = tf.keras.layers.Dense(units=dimension, use_bias=False) # dimension used for 4 head attention
-    W_K = tf.keras.layers.Dense(units=dimension, use_bias=False)
-    W_V = tf.keras.layers.Dense(units=dimension, use_bias=False)
 
     Q = W_Q(get_vectors)
     K = W_K(get_vectors)
