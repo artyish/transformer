@@ -1,0 +1,33 @@
+import numpy as np
+import math
+from tokenizer import return_embedding_vector
+
+sentence = "This is a test sentence"
+embedding_vectors = return_embedding_vector(sentence)
+
+def get_positional_encoding(embedding_vectors):
+    final_positional_values = []    
+    for i in range(embedding_vectors.shape[1]):
+        values = []
+        for f in range((embedding_vectors.shape[2] // 2)):
+
+            value_even = np.sin(i/(np.power(10000,(2*f/embedding_vectors.shape[2]))))
+            value_odd = np.cos(i/(np.power(10000,(2*f/embedding_vectors.shape[2]))))
+            
+            values.append(value_even)
+            values.append(value_odd)
+            
+        final_positional_values.append(values)
+        
+    return final_positional_values
+
+def vectors_with_positional(embedding_vectors):        
+    final_positional_values = get_positional_encoding(embedding_vectors)            
+    final_positional_values = np.array(final_positional_values)
+    print(final_positional_values.shape)       
+
+    embedding_vectors += final_positional_values[np.newaxis, :, :]
+    
+    return embedding_vectors
+
+vectors_with_positional(embedding_vectors)
