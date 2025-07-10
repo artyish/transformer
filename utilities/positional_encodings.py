@@ -1,9 +1,10 @@
 import numpy as np
 import math
-from tokenizer import return_embedding_vector
+from utilities.tokenizer import return_embedding_vector
 
-sentence = "This is a test sentence"
-embedding_vectors = return_embedding_vector(sentence)
+def get_embedding_vectors(sentence):
+    embedding_vectors = return_embedding_vector(sentence)
+    return embedding_vectors
 
 def get_positional_encoding(embedding_vectors):
     final_positional_values = []    
@@ -21,7 +22,8 @@ def get_positional_encoding(embedding_vectors):
         
     return final_positional_values
 
-def vectors_with_positional(embedding_vectors):        
+def vectors_with_positional(sentence):
+    embedding_vectors = get_embedding_vectors(sentence)        
     final_positional_values = get_positional_encoding(embedding_vectors)            
     final_positional_values = np.array(final_positional_values)
 
@@ -29,4 +31,3 @@ def vectors_with_positional(embedding_vectors):
     print(f"Embedding Vectors Shape: {embedding_vectors.shape}")
     return embedding_vectors
 
-vectors_with_positional(embedding_vectors)
