@@ -1,9 +1,9 @@
 import numpy as np
-import math
 from utilities.tokenizer import return_embedding_vector
 
-def get_embedding_vectors(sentence):
-    embedding_vectors = return_embedding_vector(sentence)
+
+def get_embedding_vectors(tokens):
+    embedding_vectors = return_embedding_vector(tokens)
     return embedding_vectors
 
 def get_positional_encoding(embedding_vectors):
@@ -22,8 +22,8 @@ def get_positional_encoding(embedding_vectors):
         
     return final_positional_values
 
-def vectors_with_positional(sentence):
-    embedding_vectors = get_embedding_vectors(sentence)        
+def vectors_with_positional(tokens):
+    embedding_vectors = get_embedding_vectors(tokens)        
     final_positional_values = get_positional_encoding(embedding_vectors)            
     final_positional_values = np.array(final_positional_values)
 

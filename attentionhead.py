@@ -1,11 +1,10 @@
-from utilities.positional_encodings import vectors_with_positional
 import tensorflow as tf
 import math
 
 # here we infer self attention :D
-def infer_self_attention(sentence):
+def infer_self_attention(vectors):
     number_of_heads = 4
-    get_vectors = vectors_with_positional(sentence)
+    get_vectors = vectors
     print(get_vectors.shape)
 
     # use that to calculate the dimension for weight matrices
@@ -21,14 +20,16 @@ def infer_self_attention(sentence):
     K = W_K(get_vectors)
     V = W_V(get_vectors)
 
+    batch_size, seq_len, d_model = Q.shape
 
-    Q = tf.reshape(Q, (1, 5, 4, 8))
+
+    Q = tf.reshape(Q, (batch_size, seq_len, number_of_heads, weight_shape_y))
     Q = tf.transpose(Q, perm=[0, 2, 1, 3])
 
-    K = tf.reshape(K, (1, 5, 4, 8))
+    K = tf.reshape(K, (batch_size, seq_len, number_of_heads, weight_shape_y))
     K = tf.transpose(K, perm=[0, 2, 1, 3])
 
-    V = tf.reshape(V, (1, 5, 4, 8))
+    V = tf.reshape(V, (batch_size, seq_len, number_of_heads, weight_shape_y))
     V = tf.transpose(V, perm=[0, 2, 1, 3])
 
 
@@ -38,6 +39,6 @@ def infer_self_attention(sentence):
     output = tf.matmul(attention_weights, V)
 
     output = tf.transpose(output, perm=[0, 2, 1, 3])  
-    output = tf.reshape(output, (1, 5, 32))
+    output = tf.reshape(output, (batch_size, seq_len, dimension))
     
     return output

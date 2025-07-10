@@ -33,11 +33,11 @@ def return_token(sentence, vocab_dictionary):
     tokenized_sentence.append(vocab_dictionary["<EOS>"])
     return tokenized_sentence
 
-def return_embedding_vector(sentence):
+def return_embedding_vector(tokens):
     vocab_dictionary = get_vocab_dictionary()
     length = len(vocab_dictionary)
     
-    tokens = return_token(sentence, vocab_dictionary)
+    tokens = tokens
     tokens_in_tensor = tf.constant([tokens])
     
     embedding_layer = tf.keras.layers.Embedding(input_dim=length, output_dim=32) 
