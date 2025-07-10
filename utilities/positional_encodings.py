@@ -24,10 +24,9 @@ def get_positional_encoding(embedding_vectors):
 def vectors_with_positional(embedding_vectors):        
     final_positional_values = get_positional_encoding(embedding_vectors)            
     final_positional_values = np.array(final_positional_values)
-    print(final_positional_values.shape)       
 
     embedding_vectors += final_positional_values[np.newaxis, :, :]
-    
+    print(f"Embedding Vectors Shape: {embedding_vectors.shape}")
     return embedding_vectors
 
 vectors_with_positional(embedding_vectors)
