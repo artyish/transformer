@@ -78,7 +78,7 @@ def train_step(inp, tgt):
     optimizer.apply_gradients(zip(grads, variables))
     return loss
 
-for epoch in range(50):
+for epoch in range(100):
     total_loss = 0.0
     for inp, tgt in dataset:
         loss = train_step(inp, tgt)
