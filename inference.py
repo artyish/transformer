@@ -5,7 +5,7 @@ from forward_network import infer_feed_forward
 from utilities.tokenizer import get_vocab_dictionary
 from utilities.tokenizer import return_token
 
-tokens = "What is the Grotto at Notre Dame?"
+tokens = "What sits on top of the Main Building at Notre Dame?"
 def generate_text():
     vocab_dict = get_vocab_dictionary()
     tokenised_sentence = return_token(tokens, vocab_dict)
